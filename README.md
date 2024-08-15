@@ -34,7 +34,7 @@ This is a FastAPI-based backend service that manages building limits and height 
     pip install -r requirements.txt
 
 ### Set up environment variables:
-Set the conn_str environment variable, or create a .env file in the root of the project with the following content: 
+Set the conn_str as environment variable. sqlite can be used for local tests, but a postgres instance on [Render](https://render.com/) is deployed for production.
 ```bash    
 conn_str=postgresql://user:password@localhost/dbname
 ```
@@ -45,6 +45,7 @@ You can run the app/main.py directly for test purposes. Alternatively:
 uvicorn app.main:app --host 'localhost' --port 8000 --reload
 ```
 ### Running tests:
+The test cases currently do not cover all possible cases, but demonstrate a few cases of what should be tested. It could benefit from additional tests (e.g. concurrent requests).
 ```bash
 pytest ./tests/
 ```
@@ -57,7 +58,7 @@ docker build .
 
 ### Access the application:
 
-The API is available at [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/)
+The API (deployed on [Render](https://render.com/)) is available at [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/)
 
 Swagger UI is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
 
@@ -65,27 +66,27 @@ This is a free instance, and will spin down after a period of inactivity, which 
 
 ### API Endpoints
 
-POST /create-project: Create a new project with building limits and height plateus.
+POST /create-project: Create a new project with building limits (required) and height plateus (required), calculate the splits, and store everything. Every project starts with version 1.
 
-PUT /update-project: Update an existing project with a new building limit or height plateaus, or both.
+PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch an existing version of height_plateaus and building_limits (that include a version number), make modification to either of them or both, and send the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
 
 DELETE /delete-project: Delete a project and all its data.
 
-GET /building-limits/{project_id}: Retrieve building limits for a project.
+GET /building-limits/{project_id}: Retrieve versioned building limits for a project.
 
-GET /height-plateaus/{project_id}: Retrieve height plateaus for a project.
+GET /height-plateaus/{project_id}: Retrieve versioned height plateaus for a project.
 
 GET /split-building-limits/{project_id}: Retrieve split building limits for a project.
 
 
 ### Assumptions
-- The height plateaus should at least cover the building limit area. They can be bigger in which case: area(building_limit) < sum(area(heigh_plateaus)) , but they shouldn’t be smaller.
+- The height plateaus should at least cover the building limit area, with no gaps. They can be bigger, in which case: area(building_limit) < sum(area(heigh_plateaus)) , but they shouldn’t be smaller.
 
 
 - There can be multiple building limits and multiple height plateaus.
 
 
-- There shouldn’t be an overlap and/or gaps between height plateaus. If there are, respond with error.
+- There shouldn’t be an overlap between height plateaus. If there are, respond with error.
 
 
 - Concurrency will be handled using optimistic locking. Read is always permissible, update is permissible if there was no change since last read.
