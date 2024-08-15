@@ -1,4 +1,4 @@
-# Project API
+# Building Limit API
 
 ## Overview
 
@@ -15,15 +15,16 @@ This is a FastAPI-based backend service that manages building limits and height 
 
 ### Requirements
 
-- Python 3.9
+- Python (built with 3.12)
+- Packages in requirements.txt
 - Docker (for containerized deployment)
 
 ### Running Locally
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/project-api.git
-   cd project-api
+   git clone https://github.com/amir-hojjati/BuildingAPI.git
+   cd BuildingAPI
 
 ### Create a virtual environment:
     python3 -m venv venv
