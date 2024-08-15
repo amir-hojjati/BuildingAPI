@@ -6,6 +6,10 @@ from .test_data import building_limits, height_plateaus_complete, height_plateau
 client = TestClient(app)
 
 def test_height_plateaus_cover_building_limits():
+    # Initial project deletion, if already exists
+    client.delete("/delete-project",
+                params={"project_id": 2})
+
     response = client.post("/create-project",
                            params={"project_id": 2},
                            json={
@@ -17,6 +21,10 @@ def test_height_plateaus_cover_building_limits():
 
 
 def test_valid_geojson():
+    # Initial project deletion, if already exists
+    client.delete("/delete-project",
+                  params={"project_id": 2})
+
     response = client.post("/create-project",
                            params={"project_id": 2},
                            json={

@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from app.models import Base
 
 # Database connection setup
-DATABASE_URL = environ.get("conn_str", 'sqlite:///:memory:')
+DATABASE_URL = environ.get("conn_str", 'sqlite:///./test.db')
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

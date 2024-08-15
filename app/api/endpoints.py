@@ -55,7 +55,6 @@ def create_building_limit_splits(project_id: int, building_limits: dict, height_
         db.rollback()
         raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
-        raise
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
 

@@ -14,10 +14,19 @@ def validate_coverage(building_limits_gdf, height_plateaus_gdf):
     :param height_plateaus_gdf: GeoDataFrame of height plateaus
     :return: None if valid, raises ValueError if invalid
     """
+    # Check if any height plateaus overlap
+    if not height_plateaus_gdf.geometry.is_valid.all():
+        raise ValueError("Some height plateau geometries are invalid.")
+
+    overlaps = height_plateaus_gdf.overlay(height_plateaus_gdf, how='intersection')
+    if len(overlaps) > len(height_plateaus_gdf):
+        raise ValueError("Height plateaus overlap, which is not allowed.")
+
+    # Check if height plateaus completely cover building limits
     combined_plateaus = height_plateaus_gdf.unary_union
     for _, row in building_limits_gdf.iterrows():
         limit_geom = row.geometry
-        # Check if plateaus cover building limits (allow minimal buffer)
+        # Allow minimal buffer
         if not combined_plateaus.buffer(1e-6).contains(limit_geom):
             raise ValueError("Height plateaus do not completely cover the building limits.")
 
@@ -37,7 +46,7 @@ def split_limits(building_limits_geojson, height_plateaus_geojson):
     if not building_limits_gdf.is_valid.all() or not height_plateaus_gdf.is_valid.all():
         raise ValueError("Invalid geometries in input data")
 
-    # Validate that height plateaus completely cover the building limits
+    # Validate that height plateaus cover building limits and do not overlap
     validate_coverage(building_limits_gdf, height_plateaus_gdf)
 
     # Perform intersection to split building limits by height plateaus

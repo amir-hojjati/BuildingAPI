@@ -6,6 +6,11 @@ client = TestClient(app)
 
 
 def test_create_project():
+    # Initial project deletion, if already exists
+    client.delete("/delete-project",
+                  params={"project_id": 2})
+
+    # Good request
     response = client.post("/create-project",
                            params={"project_id": 2},
                            json={
@@ -15,6 +20,11 @@ def test_create_project():
     assert response.status_code == 200
     assert response.json()["message"] == "Successfully split and stored the results"
 
+    # Initial project deletion, if already exists
+    client.delete("/delete-project",
+                  params={"project_id": 2})
+
+    # Bad request
     response = client.post("/create-project",
                            params={"project_id": 2},
                            json={
