@@ -45,7 +45,7 @@ You can run the app/main.py directly for test purposes. Alternatively:
 uvicorn app.main:app --host 'localhost' --port 8000 --reload
 ```
 ### Running tests:
-The test cases currently do not cover all possible cases, but demonstrate a few cases of what should be tested. It could benefit from additional tests (e.g. concurrent requests).
+The test cases do not cover all possible cases, but demonstrate several examples of the type of cases that should be tested. It could benefit from additional tests.
 ```bash
 pytest ./tests/
 ```
@@ -66,9 +66,9 @@ This is a free instance, and will spin down after a period of inactivity, which 
 
 ### API Endpoints
 
-POST /create-project: Create a new project with building limits (required) and height plateus (required), calculate the splits, and store everything. Every project starts with version 1.
+POST /create-project: Create a new project with building limits (required) and height plateus (required), calculate the splits, and store everything. Every project starts with version 1. Use contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used in "PUT /update-project".
 
-PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch an existing version of height_plateaus and building_limits (that include a version number), make modification to either of them or both, and send the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
+PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project (that include a version number), make modification to either of them or both, and send the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
 
 DELETE /delete-project: Delete a project and all its data.
 
