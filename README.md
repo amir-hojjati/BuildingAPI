@@ -58,7 +58,7 @@ docker build .
 
 ### Access the application:
 
-The API (deployed on [Render](https://render.com/)) is deployeed at (use as base url): [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/)
+The API (deployed on [Render](https://render.com/)) is publicly available at: [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/) (use as base url, no api key required for now)
 
 Swagger UI is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
 
