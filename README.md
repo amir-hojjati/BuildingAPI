@@ -40,9 +40,11 @@ conn_str=postgresql://user:password@localhost/dbname
 ```
 
 ### Run the application:
-    uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-### Running test:
+You can run the app/main.py directly for test purposes. Alternatively:
+```bash    
+uvicorn app.main:app --host 'localhost' --port 8000 --reload
+```
+### Running tests:
 ```bash
 pytest ./tests/
 ```
@@ -55,7 +57,11 @@ docker build .
 
 ### Access the application:
 
-The API will be available at http://localhost:8000.
+The API is available at [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/)
+
+Swagger UI is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
+
+This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by 50 seconds or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free!).
 
 ### API Endpoints
 
