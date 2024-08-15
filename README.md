@@ -21,7 +21,7 @@ This is a FastAPI-based backend service that manages building limits and height 
 
 ### Running Locally
 
-1. **Clone the repository:**
+### Clone the repository
    ```bash
    git clone https://github.com/amir-hojjati/BuildingAPI.git
    cd BuildingAPI
@@ -34,7 +34,7 @@ This is a FastAPI-based backend service that manages building limits and height 
     pip install -r requirements.txt
 
 ### Set up environment variables:
-Set the conn_str as environment variable. sqlite can be used for local tests, but a postgres instance on [Render](https://render.com/) is deployed for production.
+Set the conn_str as environment variable to access production postgres database. sqlite can be used for local tests, but a postgres instance on [Render](https://render.com/) is deployed for production.
 ```bash    
 conn_str=postgresql://user:password@localhost/dbname
 ```
@@ -60,15 +60,15 @@ docker build .
 
 The API (deployed on [Render](https://render.com/)) is publicly available at: [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/) (use as base url, no api key required for now)
 
-Swagger UI is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
+Swagger UI is also available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
 
-This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by 50 seconds or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free!).
+This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by 50 seconds or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
 
 ### API Endpoints
 
-POST /create-project: Create a new project with building limits (required) and height plateus (required), calculate the splits, and store everything. Every project starts with version 1. Use contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used in "PUT /update-project".
+POST /create-project: Creates a new project with the provided building limits (Geojson, required) and height plateus (Geojson, required), calculates the splits, and stores everything. Every project automatically starts with version 1. Use the contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used as input to "PUT /update-project".
 
-PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project (that include a version number), make modification to either of them or both, and send the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
+PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project using GET /building-limits or GET /height-plateaus (that include a version number), make modification to either of them or to both, and send back the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
 
 DELETE /delete-project: Delete a project and all its data.
 
