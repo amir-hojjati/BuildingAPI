@@ -60,7 +60,7 @@ docker build .
 
 The API (deployed on [Render](https://render.com/)) is publicly available at: [https://buildingapi-0jnu.onrender.com/](https://buildingapi-0jnu.onrender.com/) (use as base url, no api key required for now)
 
-Swagger UI is also available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
+Swagger UI (+ documentation and OpenAPI specs) is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
 
 This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by 50 seconds or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
 
