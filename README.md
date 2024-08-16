@@ -2,14 +2,23 @@
 
 ## Overview
 
-This is a FastAPI-based backend service that manages building limits and height plateaus for different projects. It can create, update, delete, and retrieve data for building limits, height plateaus, and their associated splits.
+This FastAPI-based backend service manages the creation, update, retrieval, and deletion of building limits and height plateaus for different projects. The API allows users to split building limits according to height plateaus and handle cases where multiple users may attempt to modify the same project concurrently. Authe
 
 ## Features
 
-- Create a new project with building limits and height plateaus.
+- Create a new project with building limits and height plateaus, and create building limit splits.
 - Update existing projects.
 - Delete a project and all associated data.
 - Retrieve building limits, height plateaus, and splits for a project.
+- The API validates that height plateaus completely cover the building limits. If there are gaps, the API raises an error.
+- The API also ensures that height plateaus do not overlap, as overlapping plateaus would be logically incorrect.
+- The API is designed to handle concurrent modifications by different users. If two users attempt to modify the same project simultaneously, the API checks for conflicts based on versioning. If a conflict is detected, one of the requests will fail with a 409 Conflict error, prompting the user to retry.
+- There is a modest level of input validation.
+
+### Out of Scope:
+- User authentication
+- Role based access control
+- Full CI/CD pipeline
 
 ## Setup
 
@@ -34,7 +43,7 @@ This is a FastAPI-based backend service that manages building limits and height 
     pip install -r requirements.txt
 
 ### Set up environment variables:
-Set the conn_str as environment variable to access production postgres database. sqlite can be used for local tests, but a postgres instance on [Render](https://render.com/) is deployed for production.
+Set the conn_str as environment variable to access production postgres database. If not set, local sqlite will be used as default, which is enough for running the tests and dev work, but a postgres instance on [Render](https://render.com/) is deployed for production.
 ```bash    
 conn_str=postgresql://user:password@localhost/dbname
 ```
@@ -62,21 +71,23 @@ The API (deployed on [Render](https://render.com/)) is publicly available at: [h
 
 Swagger UI (+ documentation and OpenAPI specs) is available at [https://buildingapi-0jnu.onrender.com/docs](https://buildingapi-0jnu.onrender.com/docs), which is useful for testing the API through a UI.
 
-This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by 50 seconds or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
+The API is redeployed whenever there is a new push to main branch.
+
+***Important note***: This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by **50 seconds** or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
 
 ### API Endpoints
 
-POST /create-project: Creates a new project with the provided building limits (Geojson, required) and height plateus (Geojson, required), calculates the splits, and stores everything. Every project automatically starts with version 1. Use the contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used as input to "PUT /update-project".
+***POST /create-project***: Creates a new project with the provided building limits (Geojson, required) and height plateus (Geojson, required), calculates the splits, and stores everything. Every project automatically starts with version 1. Use the contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used as input to "PUT /update-project".
 
-PUT /update-project: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project using GET /building-limits or GET /height-plateaus (that include a version number), make modification to either of them or to both, and send back the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
+***PUT /update-project***: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project using GET /building-limits or GET /height-plateaus (that include a version number), make modification to either of them or to both, and send back the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
 
-DELETE /delete-project: Delete a project and all its data.
+***DELETE /delete-project***: Delete a project and all its data.
 
-GET /building-limits/{project_id}: Retrieve versioned building limits for a project.
+***GET /building-limits/{project_id}***: Retrieve versioned building limits for a project.
 
-GET /height-plateaus/{project_id}: Retrieve versioned height plateaus for a project.
+***GET /height-plateaus/{project_id}***: Retrieve versioned height plateaus for a project.
 
-GET /split-building-limits/{project_id}: Retrieve split building limits for a project.
+***GET /split-building-limits/{project_id}***: Retrieve split building limits for a project.
 
 
 ### Assumptions
