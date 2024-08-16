@@ -73,7 +73,7 @@ Swagger UI (+ documentation and OpenAPI specs) is available at [https://building
 
 The API is redeployed whenever there is a new push to main branch.
 
-***Important note***: This is a free instance, and will spin down after a period of inactivity, which can delay initial requests by **50 seconds** or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
+***Important note***: This is a free instance, and will spin down after a period of inactivity (~15 minutes), which can delay initial requests by **50 seconds** or more. The database instance will also be suspended after 3 days of inactivity (and will be deleted after 30 days) and may need reactivation (but it's free! Contact me it it's been suspended.).
 
 ### API Endpoints
 
