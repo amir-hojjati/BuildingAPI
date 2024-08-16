@@ -79,7 +79,7 @@ The API is redeployed whenever there is a new push to main branch.
 
 ***POST /create-project***: Creates a new project with the provided building limits (Geojson, required) and height plateus (Geojson, required), calculates the splits, and stores everything. Every project automatically starts with version 1. Use the contents of "sample.json" as input to quickly test it. After that, the result of "GET /building-limits/" or "GET /height-plateaus" or their combination can be directly used as input to "PUT /update-project".
 
-***PUT /update-project***: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project using GET /building-limits or GET /height-plateaus (that include a version number), make modification to either of them or to both, and send back the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
+***PUT /update-project***: Update an existing project with a new building limit or new height plateaus, or both. Normally, the user needs to choose a project, and fetch the existing version of height_plateaus and building_limits for that project using GET /building-limits or GET /height-plateaus (that include entity ids, and a version number), make modification to either of them or to both, and send back the modified entity to the endpoint (version will be incremented automatically, so no need to change it).
 
 ***DELETE /delete-project***: Delete a project and all its data.
 
