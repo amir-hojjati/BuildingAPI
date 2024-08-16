@@ -104,3 +104,6 @@ The API is redeployed whenever there is a new push to main branch.
 
 
 - Users are part of a shared workspace where they can collaborate on different projects, by creating new projects or updating existing ones. Conflicts may arise during collaborative work on existing projects. User authentication is assumed to be out of scope for this assignment.
+
+
+- Building limit and Height plateau entities are created when creating a new project, and users can only edit the created entities (geometry and elevation) within each project. If needed, a DELETE and a POST endpoint can easily be added to enable deleting and creating new entities within each project.
