@@ -34,6 +34,7 @@ This FastAPI-based backend service manages the creation, update, retrieval, and 
    ```bash
    git clone https://github.com/amir-hojjati/BuildingAPI.git
    cd BuildingAPI
+```
 
 ### Create a virtual environment:
     python3 -m venv venv
