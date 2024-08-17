@@ -2,7 +2,7 @@
 
 ## Overview
 
-This FastAPI-based backend service manages the creation, update, retrieval, and deletion of building limits and height plateaus for different projects. The API allows users to split building limits according to height plateaus and handle cases where multiple users may attempt to modify the same project concurrently. Authe
+This FastAPI-based backend service manages the creation, update, retrieval, and deletion of building limits and height plateaus for different projects. The API allows users to create projects, split building limits according to height plateaus for each project, update polygon geometries and elevations for an existing project, and handle cases where multiple users may attempt to modify the same project concurrently.
 
 ## Features
 
@@ -61,7 +61,7 @@ pytest ./tests/
 ```
 
 ### Running with Docker
-You can use Docker to build and start the containers:
+You can use Docker to build and start the container without any additional step, or deploy it directly to a cloud service:
 ```bash
 docker build .
 ```
