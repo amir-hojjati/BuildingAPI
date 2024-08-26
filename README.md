@@ -108,3 +108,5 @@ The API is redeployed whenever there is a new push to main branch.
 
 
 - Building limit and Height plateau entities are created when creating a new project via POST, and users can only edit the created entities (geometry and elevation) within each project via PUT. If needed, a DELETE and a POST endpoint can easily be added to enable deleting and creating new entities within each project.
+
+- A minial buffer is allowed when matching splits and original building limits and height plateaus, and when checking coverage. This would ideally be set by users themselves or through proper business logic (e.g. show warning if the error is <=ε).
